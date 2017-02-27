@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css?family=Baloo');
+
+*{
+  margin: 0; padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  padding: 25px;
+  background-color: #333;
+  font-family: 'Baloo', cursive;
+}
+
+.grid{
+  display: flex;
+}
+
+.unit{
+  display: inline-block;
+}
+
+.unit50{
+  width: 50%;
+  max-width: 50%;
+}
+
+.list{
+  list-style: none;
+  margin: 0; padding: 0;
+}
+
+.list li{
+  display: flex;
+  height: 80px;
+  &.large{
+    font-size: 32px;
+  }
+}
+
+.number{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-width: 80px;
+}
+
+$red: #EE3540;
+$redDark: darken(#EE3540,2%);
+$purple: #59348C;
+$purpleDark: darken(#59348C,2%);
+
+@for $i from 1 to 22 {
+  .unit50:nth-child(1) ul li:nth-child(#{$i}) .number{ background-color: lighten($purpleDark, $i * 1.25%) }
+  .unit50:nth-child(1) ul li:nth-child(#{$i}) .item{ background-color: lighten($purple, $i * 1.25%) }
+
+  .unit50:nth-child(2) ul li:nth-child(#{$i}) .number{ background-color: lighten($redDark, $i * 1.25%) }
+  .unit50:nth-child(2) ul li:nth-child(#{$i}) .item{ background-color: lighten($red, $i * 1.25%) }
+}
+
+.item{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 0 20px;
+}
