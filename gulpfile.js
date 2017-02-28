@@ -3,8 +3,8 @@ var gulp = require('gulp');
 
 // Enviroment vars
 // ---------------
-var compiledFolder = 'authorization_code/public/';
-var srcFolder = 'authorization_code/public/';
+var compiledFolder = 'public/';
+var srcFolder = 'public/';
 
 
 // Plugins

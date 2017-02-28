@@ -6,8 +6,8 @@
 }
 
 body{
-  padding: 25px;
-  background-color: #333;
+  padding: 50px;
+  background-color: #05F26C;
   font-family: 'Baloo', cursive;
 }
 
@@ -32,6 +32,7 @@ body{
 .list li{
   display: flex;
   height: 80px;
+  color: #fff;
   &.large{
     font-size: 32px;
   }
@@ -45,23 +46,36 @@ body{
   min-width: 80px;
 }
 
-$red: #EE3540;
-$redDark: darken(#EE3540,2%);
-$purple: #59348C;
-$purpleDark: darken(#59348C,2%);
+.artist-img{
+  width: 50px; height: 50px;
+  margin: 0 20px 0 0;
+  border-radius: 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  background-color: #05F26C;
+}
+
+$red: darken(#c41555,5%);
+$redDark: darken(#c41555,7%);
+$purple: #340040;
+$purpleDark: darken(#340040,2%);
 
 @for $i from 1 to 22 {
-  .unit50:nth-child(1) ul li:nth-child(#{$i}) .number{ background-color: lighten($purpleDark, $i * 1.25%) }
-  .unit50:nth-child(1) ul li:nth-child(#{$i}) .item{ background-color: lighten($purple, $i * 1.25%) }
+  .unit50:nth-child(1) ul li:nth-child(#{$i}) .number{ background-color: lighten($purpleDark, $i * 1.5%) }
+  .unit50:nth-child(1) ul li:nth-child(#{$i}) .item{ background-color: lighten($purple, $i * 1.5%) }
 
-  .unit50:nth-child(2) ul li:nth-child(#{$i}) .number{ background-color: lighten($redDark, $i * 1.25%) }
-  .unit50:nth-child(2) ul li:nth-child(#{$i}) .item{ background-color: lighten($red, $i * 1.25%) }
+  .unit50:nth-child(2) ul li:nth-child(#{$i}) .number{ background-color: lighten($redDark, $i * 1.5%) }
+  .unit50:nth-child(2) ul li:nth-child(#{$i}) .item{ background-color: lighten($red, $i * 1.5%) }
 }
 
 .item{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  align-items: center;
   flex-grow: 1;
   padding: 0 20px;
+  p{
+    flex-direction: column;
+  }
 }
