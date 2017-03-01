@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>Example of the Authorization Code flow with Spotify</title>
+    <title>Spotify Stats</title>
     <link rel="stylesheet" href="app.css">
   </head>
   <body>
@@ -10,11 +10,15 @@
         <div class="middle"><a href="/login" class="btn">Log in with Spotify</a></div>
       </div>
       <div ng-app="newtab" id="loggedin">
-        <div id="user-profile">
-        </div>
-        <div id="oauth">
-        </div>
+        <div id="user-profile"></div>
+        <div id="oauth"></div>
         <button class="btn btn-default" id="obtain-new-token" style="display: none;">Obtain new token using the refresh token</button>
+
+        <div ng-controller="UserController" class="profile">
+          <span class="img large" style=""></span>
+          <p>{{ user.id }}</p>
+        </div>
+
         <div class="grid">
           <div ng-controller="ArtistsController" class="unit unit50">
             <ul class="list">
@@ -22,7 +26,7 @@
               <li ng-repeat="artist in artists">
                 <span class="number">#{{ $index + 1 }}</span>
                 <span class="item">
-                  <span class="artist-img" style="background-image: url({{ artist.images[0].url }});"></span>
+                  <span class="img" style="background-image: url({{ artist.images[0].url }});"></span>
                   <p>{{ artist.name }}</p>
                 </span>
               </li>
@@ -34,7 +38,7 @@
               <li ng-repeat="track in tracks">
                 <span class="number">#{{ $index + 1 }}</span>
                 <span class="item">
-                  <span class="artist-img" style="background-image: url({{ track.album.images[0].url }});"></span>
+                  <span class="img" style="background-image: url({{ track.album.images[0].url }});"></span>
                   <p>
                     {{ track.name }}<br />
                     <i>{{ track.artists[0].name }}</i>
@@ -47,42 +51,12 @@
       </div>
     </div>
 
-    <script id="user-profile-template" type="text/x-handlebars-template">
-      <!-- <h1>Logged in as {{display_name}}</h1>
-      <div class="media">
-        <div class="pull-left">
-          <img class="media-object" width="150" src="{{images.0.url}}" />
-        </div>
-        <div class="media-body">
-          <dl class="dl-horizontal">
-            <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
-            <dt>Id</dt><dd>{{id}}</dd>
-            <dt>Email</dt><dd>{{email}}</dd>
-            <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
-            <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
-            <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
-            <dt>Country</dt><dd>{{country}}</dd>
-          </dl>
-        </div>
-      </div> -->
-
-      <!-- <div id="artists"></div> -->
-
-    </script>
-
-    <script id="oauth-template" type="text/x-handlebars-template">
-      <!-- <h2>oAuth info</h2>
-      <dl class="dl-horizontal">
-        <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
-        <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}></dd>
-      </dl> -->
-    </script>
+    <script id="user-profile-template"></script>
+    <script id="oauth-template"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
     <script>
-
-
       (function() {
 
         /**
@@ -148,8 +122,21 @@
 
         var App = angular.module("newtab", []);
 
-        App.controller("ArtistsController", function ($scope, $http) {
+        App.controller("UserController", function ($scope, $http) {
+          $http({
+            url: 'https://api.spotify.com/v1/me',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+          }).then(function successCallback(response) {
+            console.log(response);
+              $scope.user = response.data;
+            }, function errorCallback(response) {
+          });
+        });
 
+        // Get users top artists
+        App.controller("ArtistsController", function ($scope, $http) {
           $http({
             url: 'https://api.spotify.com/v1/me/top/artists',
             headers: {
@@ -158,13 +145,11 @@
           }).then(function successCallback(response) {
               $scope.artists = response.data.items;
             }, function errorCallback(response) {
-
           });
-
         });
 
+        // Get users top tracks
         App.controller("TracksController", function ($scope, $http) {
-
           $http({
             url: 'https://api.spotify.com/v1/me/top/tracks',
             headers: {
@@ -175,12 +160,9 @@
             }, function errorCallback(response) {
 
           });
-
         });
 
       })();
-
-
     </script>
   </body>
 </html>
