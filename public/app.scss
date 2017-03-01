@@ -84,3 +84,17 @@ $purpleDark: darken(#340040,2%);
     i{ font-weight: 300; }
   }
 }
+
+.btn{
+  padding: 10px 40px;
+  border-radius: 25px;
+  background-color: $purple;
+  color: #fff;
+  text-decoration: none;
+}
+
+.middle{
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%,-50%);
+}
