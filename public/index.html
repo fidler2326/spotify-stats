@@ -3,23 +3,8 @@
   <head>
     <title>Example of the Authorization Code flow with Spotify</title>
     <link rel="stylesheet" href="app.css">
-    <style type="text/css">
-      #login, #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-    </style>
   </head>
-
   <body>
-
-
-
     <div class="container">
       <div id="login">
         <h1>This is an example of the Authorization Code flow</h1>
@@ -51,8 +36,10 @@
                 <span class="number">#{{ $index + 1 }}</span>
                 <span class="item">
                   <span class="artist-img" style="background-image: url({{ track.album.images[0].url }});"></span>
-                  {{ track.name }}<br />
-                  {{ track.artists[0].name }}
+                  <p>
+                    {{ track.name }}<br />
+                    <i>{{ track.artists[0].name }}</i>
+                  </p>
                 </span>
               </li>
             </ul>
@@ -136,31 +123,12 @@
               access_token: access_token,
               refresh_token: refresh_token
             });
-
-            $.ajax({
-                url: 'https://api.spotify.com/v1/me/top/artists',
-                headers: {
-                  'Authorization': 'Bearer ' + access_token
-                },
-                success: function(response) {
-                  userProfilePlaceholder.innerHTML = userProfileTemplate(response);
-
-                  for (i = 0; i < response.items.length; i++) {
-                    // console.log(response.items[i]);
-                    var html = '<p>' + response.items[i].name + '</p>';
-                    $('#artists').append(html);
-                  }
-
-                  $('#login').hide();
-                  $('#loggedin').show();
-                  // console.log(response);
-
-                }
-            });
+            $('#login').hide();
+            $('#loggedin').show();
           } else {
-              // render initial screen
-              $('#login').show();
-              $('#loggedin').hide();
+            // render initial screen
+            $('#login').show();
+            $('#loggedin').hide();
           }
 
           document.getElementById('obtain-new-token').addEventListener('click', function() {
@@ -184,21 +152,14 @@
         App.controller("ArtistsController", function ($scope, $http) {
 
           $http({
-            // method: 'GET',
             url: 'https://api.spotify.com/v1/me/top/artists',
             headers: {
               'Authorization': 'Bearer ' + access_token
             },
           }).then(function successCallback(response) {
-            // console.log(response);
-              // this callback will be called asynchronously
-              // when the response is available
               $scope.artists = response.data.items;
-              // console.log($scope.artists);
-              // return $scope.data;
             }, function errorCallback(response) {
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
+
           });
 
         });
@@ -206,22 +167,14 @@
         App.controller("TracksController", function ($scope, $http) {
 
           $http({
-            // method: 'GET',
             url: 'https://api.spotify.com/v1/me/top/tracks',
             headers: {
               'Authorization': 'Bearer ' + access_token
             },
           }).then(function successCallback(response) {
-            // console.log(response);
-              // this callback will be called asynchronously
-              // when the response is available
               $scope.tracks = response.data.items;
-              console.log(response);
-              // console.log($scope.artists);
-              // return $scope.data;
             }, function errorCallback(response) {
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
+
           });
 
         });
